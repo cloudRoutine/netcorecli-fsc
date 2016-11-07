@@ -48,7 +48,7 @@ let assertExitCodeZero x =
 let runCmdIn workDir exe = 
     Printf.ksprintf (fun args -> 
         Shell.Exec(exe, args, workDir) |> assertExitCodeZero)
-
+let nuget  workDir = runCmdIn workDir "packages/NuGet.CommandLine/tools/NuGet.exe"
 /// Execute a dotnet cli command
 let dotnet workDir = runCmdIn workDir "dotnet"
 
@@ -70,6 +70,9 @@ Target "Build" (fun _ ->
     // Build F# SDK nupkg
     dotnet fsharpSdkDir "restore"
     dotnet fsharpSdkDir "pack -c Release --output %s" pkgOutputDir
+    // dotnet fsharpSdkDir "restore"
+    // dotnet fsharpSdkDir "pack -c Release --output %s" pkgOutputDir
+    nuget fsharpSdkDir "pack FSharp.NET.Sdk.nuspec -OutputDirectory %s" pkgOutputDir
 )
 
 
