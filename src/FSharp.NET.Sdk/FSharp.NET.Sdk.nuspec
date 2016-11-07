@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <!-- Required elements-->
+    <id>FSharp.NET.Sdk</id>
+    <version>1.0.0-alpha</version>
+    <description>MSBuild targets and properties for F# netcore compilation</description>
+    <authors>Enrico Sada, Jared Hester</authors>
+    <tags>F# SDK netcore MSBuild</tags>
+    <projectUrl>https://github.com/dotnet/netcorecli-fsc</projectUrl>
+    <!-- Optional elements -->  
+    <!-- ... -->    
+    <dependencies>
+      <dependency id="Microsoft.NET.Sdk" version="1.0.0-alpha-20161102-2"/>
+      <dependency id="NETStandard.Library" version="1.6.0"/>
+    </dependencies>   
+
+  </metadata>
+  <!-- Optional 'files' node -->
+  <files>
+    <file src="FSharp.NET.Sdk.targets" target="build\netstandard1.0"/>
+    <file src="FSharp.NET.Core.Sdk.targets" target="build\netstandard1.0"/>
+    <file src="FSharp.NET.Sdk.props" target="build\netstandard1.0"/>
+    <file src="FSharp.NET.CrossTargeting.Sdk.targets" target="buildCrossTargeting"/>
+  </files>
+</package>
