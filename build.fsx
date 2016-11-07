@@ -39,6 +39,7 @@ Target "Clean" (fun _ ->
 // to run the build.fsx with a version number -
 // build.cmd <TARGET> -ev VersionSuffix <num string> 
 let versionSuffix = environVarOrDefault "VersionSuffix" "013072"
+let versionSuffix = environVarOrDefault "VersionSuffix" "13072"
 
 let assertExitCodeZero x = 
     if x = 0 then () else 
