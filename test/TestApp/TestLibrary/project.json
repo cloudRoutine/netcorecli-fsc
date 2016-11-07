@@ -2,7 +2,6 @@
   "version": "1.0.0-*",
   "buildOptions": {
     "debugType": "portable",
-    "compilerName": "fsc",
     "compile": {
       "includeFiles": [
         "Helper2.fs",

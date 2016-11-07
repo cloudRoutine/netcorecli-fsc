@@ -38,7 +38,6 @@ Target "Clean" (fun _ ->
 
 // to run the build.fsx with a version number -
 // build.cmd <TARGET> -ev VersionSuffix <num string> 
-let versionSuffix = environVarOrDefault "VersionSuffix" "013072"
 let versionSuffix = environVarOrDefault "VersionSuffix" "13072"
 
 let assertExitCodeZero x = 
@@ -48,10 +47,10 @@ let assertExitCodeZero x =
 let runCmdIn workDir exe = 
     Printf.ksprintf (fun args -> 
         Shell.Exec(exe, args, workDir) |> assertExitCodeZero)
-let nuget  workDir = runCmdIn workDir "packages/NuGet.CommandLine/tools/NuGet.exe"
+
 /// Execute a dotnet cli command
 let dotnet workDir = runCmdIn workDir "dotnet"
-
+let nuget  workDir = runCmdIn workDir "packages/NuGet.CommandLine/tools/NuGet.exe"
 
 let root = __SOURCE_DIRECTORY__
 let srcDir = root</>"src"
@@ -68,8 +67,6 @@ Target "Build" (fun _ ->
     dotnet fscDir "restore"
     dotnet fscDir "pack -c Release -o %s --version-suffix %s" pkgOutputDir versionSuffix
     // Build F# SDK nupkg
-    dotnet fsharpSdkDir "restore"
-    dotnet fsharpSdkDir "pack -c Release --output %s" pkgOutputDir
     // dotnet fsharpSdkDir "restore"
     // dotnet fsharpSdkDir "pack -c Release --output %s" pkgOutputDir
     nuget fsharpSdkDir "pack FSharp.NET.Sdk.nuspec -OutputDirectory %s" pkgOutputDir
@@ -80,14 +77,15 @@ let testAppDir = testDir</>"TestApp"
 let testAppWithArgsDir = testDir</>"TestAppWithArgs"
 let testLibraryDir = testDir</>"TestLibrary"
 let nugetConfig = testDir</>"Nuget.Config"
-let consoleExampleDir = root</>"examples"</>"preview2"</>"console"
-let libraryExampleDir = root</>"examples"</>"preview2"</>"lib"
+let consoleExampleDir = root</>"examples"</>"preview3"</>"console"
+let libraryExampleDir = root</>"examples"</>"preview3"</>"lib"
 
 
 Target "Test" (fun _ ->
     
     let restoreTest dir =
-        dotnet dir "restore -v Information -f %s --configfile %s" binDir nugetConfig
+        dotnet dir "restore --configfile %s" nugetConfig
+        // dotnet dir "restore -v Information -f %s --configfile %s" binDir nugetConfig
 
     let runTest dir =
         restoreTest dir
@@ -95,19 +93,22 @@ Target "Test" (fun _ ->
         dotnet dir "run"
 
     runTest testAppWithArgsDir
-    runTest testLibraryDir
+
+    dotnet testLibraryDir "restore"
+    dotnet testLibraryDir "build"
+    
     runTest testAppDir
 
     let restoreFallback dir =
         dotnet dir "restore -v Information -f %s" binDir
+        // dotnet dir "restore -v Information -f %s" binDir
 
-    let runExample dir = 
-        restoreFallback dir
-        dotnet dir "build"
-        dotnet dir "run"
+    dotnet libraryExampleDir "restore"
+    dotnet libraryExampleDir "build"
     
-    runExample consoleExampleDir
-    runExample libraryExampleDir
+    dotnet consoleExampleDir "restore"
+    dotnet consoleExampleDir "build"
+    dotnet consoleExampleDir "run"
 )
 
 "Clean"
