@@ -39,5 +39,4 @@ install:
 # Build netcore packages
 script:
   - dotnet --info
-  - cd src/
-  - dotnet restore --disable-parallel
+  - ./build.sh Test
