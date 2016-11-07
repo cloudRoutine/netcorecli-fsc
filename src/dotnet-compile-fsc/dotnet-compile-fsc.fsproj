@@ -9,6 +9,9 @@
   <PropertyGroup>
     <Version>1.0.0-preview3</Version>
     <Authors>Enrico Sada; Jared Hester</Authors>
+    <PackageProjectUrl>https://github.com/dotnet/netcorecli-fsc</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dotnet/netcorecli-fsc</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -43,6 +46,7 @@
     <PackageReference Include="Microsoft.DotNet.Cli.Utils">
       <Version>1.0.0-preview2-*</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.App" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
